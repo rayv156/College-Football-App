@@ -13,34 +13,37 @@
       <link rel="stylesheet" href="jquery-ui.min.css">
 <script src="external/jquery/jquery.js"></script>
 <script src="jquery-ui.min.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
     <script src="app.js" defer></script>
 </head>
 <body>
     <div id="container1">
-    <h1>College Football 2020 Team Summary</h1>
+    <h1><ion-icon name="american-football-outline"></ion-icon>CFB 2020 Team Summary</h1>
+        <div id="search-bar">
+        <form>
+            <input type="text" placeholder="Search by Team"/>
+            <button type="submit" id="button"><ion-icon name="search-outline"></ion-icon></button>
 
-    <form>
-        <input type="text" placeholder="Search by Team"/>
-        <input type="submit" id="button" value="Search" />
-    </form>
+        </form>
+        </div>
 </div>
     <div id="container2">
-        
+
     </div>
     
     <div id="container3">
         <h2>Schedule</h2>
-        <div>
+        <div id="section1">
             <ul class="schedule">
             </ul>
         </div>
         <h2>Incoming Recruits</h2>
-        <div>
+        <div id="section2">
             <ul class="incoming-class">
             </ul>
         </div>
         <h2>Roster</h2>
-        <div>
+        <div id="section3">
         <ul class="roster">
         </ul>
         </div>

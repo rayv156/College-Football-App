@@ -22,7 +22,6 @@ $('form').on('submit', (event)=> {
                     $('#container2').prepend($newh1);
                     $('#container2').prepend(`<img id="logo" src="${team.logos[1]}" width="250px">`);
                     $('#container2').css('background', `linear-gradient(-100deg, ${team.color} 80%, ${team.alt_color} 80%)`)
-                    //linear-gradient(-100deg, ${team.color} 80%, ${team.alt_color} 80%)
                     getSchedule(team)
                     getIncomingClass(team)
                     getRoster(team)
