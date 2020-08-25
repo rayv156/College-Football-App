@@ -28,14 +28,33 @@
       </div>
     </div>
     <div id="container1">
-    <h1><ion-icon name="american-football-outline"></ion-icon>CFB 2020<br>Team Info</h1>
+    <h1><ion-icon name="american-football-outline"></ion-icon>CFB<br>Team Info</h1>
         <div id="search-bar">
         <form>
-            <input type="text" placeholder="Search by Team"/>
+            <input type="text" placeholder="Search by Team" required="required"/>
             <button type="submit" id="button"><ion-icon name="search-outline"></ion-icon></button>
+            <label for="year">Year:</label>
+            <select id="year" name="year" required="required">
+              <option value=""></option>
+              <option value="2020">2020</option>
+              <option value="2019">2019</option>
+              <option value="2018">2018</option>
+              <option value="2017">2017</option>
+              <option value="2016">2016</option>
+              <option value="2015">2015</option>
+              <option value="2014">2014</option>
+              <option value="2013">2013</option>
+              <option value="2012">2012</option>
+              <option value="2011">2011</option>
+              <option value="2010">2010</option>
+
+            </select>
 
         </form>
         </div>
+
+       
+            
         <div id="links">
             <a href="https://github.com/rayv156"><ion-icon name="logo-github"></ion-icon></a></ion-icon>
             <a href="https://www.linkedin.com/in/velasquezray/"><ion-icon name="logo-linkedin"></ion-icon></a>

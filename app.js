@@ -22,8 +22,10 @@ $('form').on('submit', (event)=> {
         event.preventDefault();
         $('#logo').remove()
         $('#team').remove()
-        $('li').empty()
+        $('.incoming-class').empty()
+    
         let userInput = $('input[type="text"]').val()
+        let userYear = $('#year').val()
         
     $.ajax({
         url:`https://api.collegefootballdata.com/teams`,
@@ -37,12 +39,13 @@ $('form').on('submit', (event)=> {
                     $('#container2').prepend($newh1);
                     $('#container2').prepend(`<img id="logo" src="${team.logos[1]}" width="250px">`);
                     $('#container2').css('background', `linear-gradient(-100deg, ${team.color} 80%, ${team.alt_color} 80%)`)
-                    getSchedule(team)
-                    getIncomingClass(team)
-                    getRoster(team)
+                    getSchedule(team, userYear)
+                    getIncomingClass(team, userYear)
+                    getRoster(team, userYear)
                     $('#container3').accordion({
                         heightStyle: "content",
                         collapsible: true,
+                        active: false,
                     })
                     $('#container3').show()
                 } else {
@@ -57,13 +60,13 @@ $('form').on('submit', (event)=> {
     })
 
 
-const getSchedule = (team) => {
+const getSchedule = (team,year) => {
     if (team.school === "Texas A&M"){
         team.school = "Texas%20A%26M"
     } else {
     }
     $.ajax({
-        url:`https://api.collegefootballdata.com/games?year=2020&seasonType=regular&team=${team.school}`,
+        url:`https://api.collegefootballdata.com/games?year=${year}&seasonType=regular&team=${team.school}`,
             
     }).then(
         (data)=>{
@@ -82,9 +85,19 @@ const getSchedule = (team) => {
     }
 
 
-const getIncomingClass = (team) => {
+const getIncomingClass = (team, year) => {
+    let lowerTeam = team.school.toLowerCase()
+    lowerTeam = lowerTeam.replace("%20", " ")
+    lowerTeam = lowerTeam.replace(/[^a-zA-Z ]/g, "")
+    lowerTeam = lowerTeam.replace(/ /g, "-");
+
+    const $newA = $(`<a href="https://247sports.com/college/${lowerTeam}/Season/${year}-Football/Commits/">`);
+    const $newButton = $('<button id="twofourseven-sports">')
+    $newButton.text('247 Sports Page')
+    $('.incoming-class').append($newA)
+    $newA.append($newButton)
         $.ajax({
-            url:`https://api.collegefootballdata.com/recruiting/players?year=2020&classification=HighSchool&team=${team.school}`,
+            url:`https://api.collegefootballdata.com/recruiting/players?year=${year}&classification=HighSchool&team=${team.school}`,
         }).then(
             (data)=>{
                 for (const object of data) {
@@ -97,11 +110,12 @@ const getIncomingClass = (team) => {
                 console.log('bad request');
             }
         );
+
         }
 
-const getRoster = (team) => {
+const getRoster = (team, year) => {
         $.ajax({
-            url:`https://api.collegefootballdata.com/roster?team=${team.school}&year=2019`,
+            url:`https://api.collegefootballdata.com/roster?team=${team.school}&year=${year-1}`,
         }).then(
             (data)=>{
                 for (const object of data) {
