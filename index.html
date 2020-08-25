@@ -17,14 +17,28 @@
     <script src="app.js" defer></script>
 </head>
 <body>
+    <!-- <button class="modal-buttons" id="openModal">About the Site</button> -->
+    <div id="modal">
+      <div id="modal-textbox">
+        <h1>CFB App</h1>
+          <p>My name is Ray Velasquez and I'm a huge college football fan.  I decided to create this search app to get a quick summary and comparison of the current week's matchup.  I generally look through multiple websites to get all my info but I figured it would be nice to have all the relevant information on one page.  Enjoy!</p>
+          <div id="modal-footer">
+          <button class="modal-buttons" href="#" id="close">Close</button>
+        </div>
+      </div>
+    </div>
     <div id="container1">
-    <h1><ion-icon name="american-football-outline"></ion-icon>CFB 2020 Team Summary</h1>
+    <h1><ion-icon name="american-football-outline"></ion-icon>CFB 2020<br>Team Info</h1>
         <div id="search-bar">
         <form>
             <input type="text" placeholder="Search by Team"/>
             <button type="submit" id="button"><ion-icon name="search-outline"></ion-icon></button>
 
         </form>
+        </div>
+        <div id="links">
+            <a href="https://github.com/rayv156"><ion-icon name="logo-github"></ion-icon></a></ion-icon>
+            <a href="https://www.linkedin.com/in/velasquezray/"><ion-icon name="logo-linkedin"></ion-icon></a>
         </div>
 </div>
     <div id="container2">

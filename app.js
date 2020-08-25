@@ -1,5 +1,20 @@
 let team
 
+// const $openBtn = $('#openModal');
+// const $modal = $('#modal');
+// const $closeBtn = $('#close');
+// const openModal = () => {
+//   $modal.css('display', 'block')
+// }
+// const closeModal = () => {
+//   $modal.css('display', 'none')
+// }
+// setTimeout(openModal, 1000);
+// // Event Listeners
+// $openBtn.on('click', openModal)
+// $closeBtn.on('click', closeModal)
+
+
 $('#container3').hide()
 
 
@@ -54,7 +69,8 @@ const getSchedule = (team) => {
         (data)=>{
             for (const object of data) {
                 const $newLi = $('<li id="game">')
-                $newLi.text(`${object.away_team} at ${object.home_team}`)
+                let gameDate = object.start_date.substring(5,10)
+                $newLi.text(`${object.away_team} at ${object.home_team}, ${gameDate}`)
                 $('.schedule').append($newLi);
                 
             }
