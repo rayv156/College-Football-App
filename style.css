@@ -4,6 +4,22 @@ body {
     background-color: grey;
 }
 
+#team-info1 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+}
+
+#team-info2 {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+}
+
+
+
 #modal {
 	background-color: rgba(0,0,0,0.4);
 	position: fixed;
@@ -46,9 +62,14 @@ body {
 	font-family: 'Arial';
 	cursor: pointer;
 }
+#content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
 
-#container1 {
+.container1 {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -58,6 +79,7 @@ body {
     background-color: rgba(0,0,0,0.6);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    width: 100%;
 }
 h1 {
     color: white;
@@ -77,18 +99,20 @@ h1 {
 
 }
 
-#container2 {
-    display: flex;
-    flex-direction: column;
+.container2 {
+    /* display: flex;
+    flex-direction: column; */
     color: white;
-    justify-content: center;
+    align-self: center;
+    width: 100%;
   
 }
-#container3 {
-    display: flex;
-    flex-direction: column;
+.container3 {
+    /* display: flex;
+    flex-direction: column; */
     color: white;
-    justify-content: center;
+    width: 100%;
+    align-self: center;
 }
 
 
@@ -104,11 +128,12 @@ ul {
 
 #logo {
     align-self: center;
+    width: 250px;
     background-color: rgba(0,0,0,0.5);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#section1, #section2, #section3{
+.section1, .section2, .section3{
     display: flex;
     justify-content: center;
 }
@@ -216,7 +241,7 @@ a {
 
 @media (max-width: 700px) {
 
-    #container1 {
+    .container1 {
         flex-direction: column;
     }
     #modal-textbox {
@@ -238,6 +263,10 @@ a {
 
    #title {
     font-size: 18px;
+   }
+
+   #logo {
+       width: 200px;
    }
 
    ion-icon[name="american-football-outline"] {

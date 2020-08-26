@@ -15,7 +15,8 @@ let team
 // $closeBtn.on('click', closeModal)
 
 
-$('#container3').hide()
+$('#container31').hide()
+$('#team-info2').hide()
 
 
 $('form').on('submit', (event)=> {
@@ -23,44 +24,17 @@ $('form').on('submit', (event)=> {
         $('#logo').remove()
         $('#team').remove()
         $('.incoming-class').empty()
-    
+        $('.roster').empty()
+        $('.schedule').empty()
         let userInput = $('input[type="text"]').val()
         let userYear = $('#year').val()
-        
-    $.ajax({
-        url:`https://api.collegefootballdata.com/teams`,
-    }).then(
-        (data)=>{
-            for (const object of data) {
-                if (object.school === userInput){
-                    team = object
-                    const $newh1 = $('<h1 id="team">')
-                    $newh1.text(`${team.school} ${team.mascot}`)
-                    $('#container2').prepend($newh1);
-                    $('#container2').prepend(`<img id="logo" src="${team.logos[1]}" width="250px">`);
-                    $('#container2').css('background', `linear-gradient(-100deg, ${team.color} 80%, ${team.alt_color} 80%)`)
-                    getSchedule(team, userYear)
-                    getIncomingClass(team, userYear)
-                    getRoster(team, userYear)
-                    $('#container3').accordion({
-                        heightStyle: "content",
-                        collapsible: true,
-                        active: false,
-                    })
-                    $('#container3').show()
-                } else {
-                }
-            }
-        },
-        ()=>{
-            console.log('bad request');
-        }
-    );
+    
+        loadData(userInput,1,userYear)
     
     })
 
 
-const getSchedule = (team,year) => {
+const getSchedule = (team,a,year) => {
     if (team.school === "Texas A&M"){
         team.school = "Texas%20A%26M"
     } else {
@@ -70,13 +44,36 @@ const getSchedule = (team,year) => {
             
     }).then(
         (data)=>{
-            for (const object of data) {
+            for (let i=0; i<data.length; i++) {
+                let object = data[i]
                 const $newLi = $('<li id="game">')
                 let gameDate = object.start_date.substring(5,10)
                 $newLi.text(`${object.away_team} at ${object.home_team}, ${gameDate}`)
-                $('.schedule').append($newLi);
-                
+                $(`#schedule${a}`).append($newLi);
+                if (object.away_team === team.school){
+                    let teamB = object.home_team
+                    $matchupButton = $(`<button class="view-matchup" id="${teamB}">`)
+                    $matchupButton.text('View Matchup')
+                    $newLi.append($matchupButton)
+                    $(`.view-matchup`).on('click', (event) => {
+                        $('#content').css('flex-direction', 'row')
+                        $('#team-info1').css('width', '50%')
+                        $('#team-info2').show()
+                        console.log($(event.currentTarget))
+                        loadData($(event.currentTarget).attr('id'),2,year)})
+                    } else if (object.home_team === team.school){
+                    let teamB = object.away_team
+                    $matchupButton = $(`<button class="view-matchup" id="${teamB}">`)
+                    $matchupButton.text('View Matchup')
+                    $newLi.append($matchupButton)
+                    $(`.view-matchup`).on('click', (event) => {
+                        $('#content').css('flex-direction', 'row')
+                        $('#team-info1').css('width', '50%')
+                        $('#team-info2').show()
+                        loadData($(event.currentTarget).attr('id'),2,year)})
+                }
             }
+                            
         },
         ()=>{
             console.log('bad request');
@@ -85,7 +82,7 @@ const getSchedule = (team,year) => {
     }
 
 
-const getIncomingClass = (team, year) => {
+const getIncomingClass = (team,a, year) => {
     let lowerTeam = team.school.toLowerCase()
     lowerTeam = lowerTeam.replace("%20", " ")
     lowerTeam = lowerTeam.replace(/[^a-zA-Z ]/g, "")
@@ -94,7 +91,7 @@ const getIncomingClass = (team, year) => {
     const $newA = $(`<a href="https://247sports.com/college/${lowerTeam}/Season/${year}-Football/Commits/">`);
     const $newButton = $('<button id="twofourseven-sports">')
     $newButton.text('247 Sports Page')
-    $('.incoming-class').append($newA)
+    $(`#incoming-class${a}`).append($newA)
     $newA.append($newButton)
         $.ajax({
             url:`https://api.collegefootballdata.com/recruiting/players?year=${year}&classification=HighSchool&team=${team.school}`,
@@ -103,7 +100,7 @@ const getIncomingClass = (team, year) => {
                 for (const object of data) {
                     const $newLi = $('<li id="recruit">')
                     $newLi.text(`${object.name}, ${object.position}, Rating: ${object.rating}, ${object.city}, ${object.stateProvince}`)
-                    $('.incoming-class').append($newLi);
+                    $(`#incoming-class${a}`).append($newLi);
                 }
             },
             ()=>{
@@ -113,7 +110,7 @@ const getIncomingClass = (team, year) => {
 
         }
 
-const getRoster = (team, year) => {
+const getRoster = (team,a, year) => {
         $.ajax({
             url:`https://api.collegefootballdata.com/roster?team=${team.school}&year=${year-1}`,
         }).then(
@@ -121,7 +118,7 @@ const getRoster = (team, year) => {
                 for (const object of data) {
                     const $newLi = $('<li id="player">')
                     $newLi.text(`${object.first_name} ${object.last_name}, ${object.position}, #${object.jersey}, Year: ${object.year}`)
-                    $('.roster').append($newLi);
+                    $(`#roster${a}`).append($newLi);
                 }
             },
             ()=>{
@@ -130,4 +127,39 @@ const getRoster = (team, year) => {
         );
         }
 
-//get teamRecord
+const getTeamInfo = (team,a,userYear) => {
+    getSchedule(team,a, userYear)
+    getIncomingClass(team,a, userYear)
+    getRoster(team,a, userYear)
+    $(`#container3${a}`).accordion({
+        heightStyle: "content",
+        collapsible: true,
+        active: false,
+    })
+    $(`#container3${a}`).show()
+}
+
+const loadData = (team,a,year) => {
+    
+$.ajax({
+    url:`https://api.collegefootballdata.com/teams`,
+}).then(
+    (data)=>{
+        for (const object of data) {
+            if (object.school === team){
+                team = object
+                const $newh1 = $('<h1 id="team">')
+                $newh1.text(`${team.school} ${team.mascot}`)
+                $(`#container2${a}`).prepend($newh1);
+                $(`#container2${a}`).prepend(`<img id="logo" src="${team.logos[1]}">`);
+                $(`#container2${a}`).css('background', `linear-gradient(-100deg, ${team.color} 80%, ${team.alt_color} 80%)`)
+                getTeamInfo(team,a,year)
+            } else {
+            }
+        }
+    },
+    ()=>{
+        console.log('bad request');
+    }
+);
+}
