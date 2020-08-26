@@ -44,18 +44,22 @@ const getSchedule = (team,a,year) => {
             
     }).then(
         (data)=>{
+            //$('#incoming-class2').empty()
+            $('#roster2').empty()
+            $('#schedule2').empty()
             for (let i=0; i<data.length; i++) {
                 let object = data[i]
-                const $newLi = $('<li id="game">')
+                const $newLi = $(`<li id="game${i}">`)
                 let gameDate = object.start_date.substring(5,10)
                 $newLi.text(`${object.away_team} at ${object.home_team}, ${gameDate}`)
                 $(`#schedule${a}`).append($newLi);
                 if (object.away_team === team.school){
                     let teamB = object.home_team
-                    $matchupButton = $(`<button class="view-matchup" id="${teamB}">`)
+                    $matchupButton = $(`<button class="view-matchup${i}" id="${teamB}">`)
                     $matchupButton.text('View Matchup')
                     $newLi.append($matchupButton)
-                    $(`.view-matchup`).on('click', (event) => {
+                    $(`.view-matchup${i}`).on('click', (event) => {
+                        
                         $('#content').css('flex-direction', 'row')
                         $('#team-info1').css('width', '50%')
                         $('#team-info2').show()
@@ -63,14 +67,18 @@ const getSchedule = (team,a,year) => {
                         loadData($(event.currentTarget).attr('id'),2,year)})
                     } else if (object.home_team === team.school){
                     let teamB = object.away_team
-                    $matchupButton = $(`<button class="view-matchup" id="${teamB}">`)
+                    $matchupButton = $(`<button class="view-matchup${i}" id="${teamB}">`)
                     $matchupButton.text('View Matchup')
                     $newLi.append($matchupButton)
-                    $(`.view-matchup`).on('click', (event) => {
+                    $(`.view-matchup${i}`).on('click', (event) => {
+                        $('#roster2').empty()
                         $('#content').css('flex-direction', 'row')
                         $('#team-info1').css('width', '50%')
                         $('#team-info2').show()
-                        loadData($(event.currentTarget).attr('id'),2,year)})
+
+                        loadData($(event.currentTarget).attr('id'),2,year)
+                    })
+
                 }
             }
                             
@@ -98,7 +106,7 @@ const getIncomingClass = (team,a, year) => {
         }).then(
             (data)=>{
                 for (const object of data) {
-                    const $newLi = $('<li id="recruit">')
+                    const $newLi = $('<li class="recruit">')
                     $newLi.text(`${object.name}, ${object.position}, Rating: ${object.rating}, ${object.city}, ${object.stateProvince}`)
                     $(`#incoming-class${a}`).append($newLi);
                 }
@@ -111,12 +119,13 @@ const getIncomingClass = (team,a, year) => {
         }
 
 const getRoster = (team,a, year) => {
+    $('#roster2').empty()
         $.ajax({
             url:`https://api.collegefootballdata.com/roster?team=${team.school}&year=${year-1}`,
         }).then(
             (data)=>{
                 for (const object of data) {
-                    const $newLi = $('<li id="player">')
+                    const $newLi = $('<li class="player">')
                     $newLi.text(`${object.first_name} ${object.last_name}, ${object.position}, #${object.jersey}, Year: ${object.year}`)
                     $(`#roster${a}`).append($newLi);
                 }
@@ -141,17 +150,22 @@ const getTeamInfo = (team,a,userYear) => {
 
 const loadData = (team,a,year) => {
     
+
 $.ajax({
     url:`https://api.collegefootballdata.com/teams`,
 }).then(
     (data)=>{
-        for (const object of data) {
+        for (let i=0; i<data.length; i++) {
+            let object = data[i]
             if (object.school === team){
                 team = object
-                const $newh1 = $('<h1 id="team">')
+                $('#container22').empty()
+                $('#incoming-class2').empty()
+                const $newh1 = $('<h1 class="team">')
                 $newh1.text(`${team.school} ${team.mascot}`)
                 $(`#container2${a}`).prepend($newh1);
-                $(`#container2${a}`).prepend(`<img id="logo" src="${team.logos[1]}">`);
+                const $newImage = $(`<img class="logo" id="logo${i}" src="${team.logos[1]}">`)
+                $(`#container2${a}`).prepend($newImage);
                 $(`#container2${a}`).css('background', `linear-gradient(-100deg, ${team.color} 80%, ${team.alt_color} 80%)`)
                 getTeamInfo(team,a,year)
             } else {
