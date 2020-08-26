@@ -265,8 +265,16 @@ a {
     font-size: 18px;
    }
 
-   #logo {
-       width: 200px;
+   .logo {
+       width: 150px;
+   }
+
+   .container2 {
+       height: 250px;
+   }
+
+   #container22 {
+       height: 250px;
    }
 
    ion-icon[name="american-football-outline"] {
