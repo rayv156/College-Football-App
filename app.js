@@ -154,7 +154,7 @@ const getIncomingClass = (team,a, year) => {
 
 const getRoster = (team,a, year) => {
         $.ajax({
-            url:`https://api.collegefootballdata.com/roster?team=${team.school}&year=${year-1}`,
+            url:`https://api.collegefootballdata.com/roster?team=${team.school}&year=${year}`,
         }).then(
             (data)=>{
                 for (const object of data) {
