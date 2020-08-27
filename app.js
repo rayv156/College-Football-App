@@ -21,11 +21,15 @@ $('#team-info2').hide()
 
 $('form').on('submit', (event)=> {
         event.preventDefault();
-        $('#logo').remove()
-        $('#team').remove()
+        // $('#logo').remove()
+        // $('#team').remove()
         $('.incoming-class').empty()
         $('.roster').empty()
         $('.schedule').empty()
+        $('#container21').empty()
+        $('#container31').hide()
+        $('#team-info2').hide()
+        $('#team-info1').css('width', '100%')
         let userInput = $('input[type="text"]').val()
         let userYear = $('#year').val()
     
@@ -44,41 +48,67 @@ const getSchedule = (team,a,year) => {
             
     }).then(
         (data)=>{
-            //$('#incoming-class2').empty()
-            $('#roster2').empty()
             $('#schedule2').empty()
             for (let i=0; i<data.length; i++) {
                 let object = data[i]
-                const $newLi = $(`<li id="game${i}">`)
+                const $newDiv = $(`<div class="game" id="game${i}">`)
                 let gameDate = object.start_date.substring(5,10)
-                $newLi.text(`${object.away_team} at ${object.home_team}, ${gameDate}`)
-                $(`#schedule${a}`).append($newLi);
-                if (object.away_team === team.school){
+                const $newDiv1 = $('<div class="matchup">')
+                $newDiv1.text(`${object.away_team} at ${object.home_team + "  -   " + gameDate.replace(/-/g, "/")}`)
+                $(`#schedule${a}`).append($newDiv);
+                $newDiv.append($newDiv1)
+
+                if (a===1){
+                    if (object.away_team === team.school){
                     let teamB = object.home_team
-                    $matchupButton = $(`<button class="view-matchup${i}" id="${teamB}">`)
+                    const $matchupButton = $(`<button class="view-matchup${i}" id="${teamB}">`)
                     $matchupButton.text('View Matchup')
-                    $newLi.append($matchupButton)
+                    $newDiv.append($matchupButton)
                     $(`.view-matchup${i}`).on('click', (event) => {
                         
                         $('#content').css('flex-direction', 'row')
                         $('#team-info1').css('width', '50%')
                         $('#team-info2').show()
                         console.log($(event.currentTarget))
-                        loadData($(event.currentTarget).attr('id'),2,year)})
+                        const $closeButton = $(`<button class="close-button">`)
+                        $closeButton.text('X')
+                        $('#team-info2').append($closeButton)
+                        loadData($(event.currentTarget).attr('id'),2,year)
+                            $closeButton.on('click', () => {
+                                $('#roster2').empty()
+                                $('#schedule2').empty()
+                                $('#incomingclass2').empty()
+                                $('#container22').empty
+                                $('#team-info2').hide()
+                                $('#team-info1').css('width', '100%')
+                        })
+                    })
                     } else if (object.home_team === team.school){
                     let teamB = object.away_team
-                    $matchupButton = $(`<button class="view-matchup${i}" id="${teamB}">`)
+                    const $matchupButton = $(`<button class="view-matchup${i}" id="${teamB}">`)
                     $matchupButton.text('View Matchup')
-                    $newLi.append($matchupButton)
+                    $newDiv.append($matchupButton)
                     $(`.view-matchup${i}`).on('click', (event) => {
                         $('#roster2').empty()
                         $('#content').css('flex-direction', 'row')
                         $('#team-info1').css('width', '50%')
                         $('#team-info2').show()
-
+                        const $closeButton = $(`<button class="close-button">`)
+                        $closeButton.text('X')
+                        $('#team-info2').append($closeButton)
                         loadData($(event.currentTarget).attr('id'),2,year)
+                            $closeButton.on('click', () => {
+                                $('#roster2').empty()
+                                $('#schedule2').empty()
+                                $('#incomingclass2').empty()
+                                $('#container22').empty
+                                $('#team-info2').hide()
+                                $('#team-info1').css('width', '100%')
+                            })
                     })
 
+                }
+                } else{
                 }
             }
                             
@@ -119,7 +149,6 @@ const getIncomingClass = (team,a, year) => {
         }
 
 const getRoster = (team,a, year) => {
-    $('#roster2').empty()
         $.ajax({
             url:`https://api.collegefootballdata.com/roster?team=${team.school}&year=${year-1}`,
         }).then(
@@ -161,6 +190,7 @@ $.ajax({
                 team = object
                 $('#container22').empty()
                 $('#incoming-class2').empty()
+                
                 const $newh1 = $('<h1 class="team">')
                 $newh1.text(`${team.school} ${team.mascot}`)
                 $(`#container2${a}`).prepend($newh1);
