@@ -1,28 +1,21 @@
 let team
 
-// const $openBtn = $('#openModal');
-// const $modal = $('#modal');
-// const $closeBtn = $('#close');
-// const openModal = () => {
-//   $modal.css('display', 'block')
-// }
-// const closeModal = () => {
-//   $modal.css('display', 'none')
-// }
-// setTimeout(openModal, 1000);
-// // Event Listeners
-// $openBtn.on('click', openModal)
-// $closeBtn.on('click', closeModal)
-
+///hiding prewritten contents
 
 $('#container31').hide()
 $('#team-info2').hide()
 
 
+
+//////////////////////////////
+/////FUNCTIONS
+/////////////////////////////
+
+
+//=========LOADING FIRST TEAM ON FORM SUBMISSION=================
+
 $('form').on('submit', (event)=> {
         event.preventDefault();
-        // $('#logo').remove()
-        // $('#team').remove()
         $('.incoming-class').empty()
         $('.roster').empty()
         $('.schedule').empty()
@@ -37,10 +30,12 @@ $('form').on('submit', (event)=> {
     
     })
 
+//==========FUNCTION FOR GETTING SCHEDULE OF TEAM==================
+//CONTAINS THE VIEW MATCHUP BUTTON WRAPPED IN THE FUNCTION TO CALL BACK THE LOAD DATA FUNCTION IN ORDER TO LOAD THE SECOND TEAM ON CLICK
 
 const getSchedule = (team,a,year) => {
     if (team.school === "Texas A&M"){
-        team.school = "Texas%20A%26M"
+        team.school = "Texas%20A%26M" //HARD CODING THIS SCHOOLS ODD URL
     } else {
     }
     $.ajax({
@@ -48,33 +43,37 @@ const getSchedule = (team,a,year) => {
             
     }).then(
         (data)=>{
+            if (team.school === "Texas%20A%26M"){
+                team.school = "Texas A&M"
+            }else{
+            }
             $('#schedule2').empty()
             for (let i=0; i<data.length; i++) {
                 let object = data[i]
-                const $newDiv = $(`<div class="game" id="game${i}">`)
-                let gameDate = object.start_date.substring(5,10)
-                const $newDiv1 = $('<div class="matchup">')
+                const $newDiv = $(`<div class="game" id="game${i}">`) //ADDING NEW DIV FOR EACH GAME
+                let gameDate = object.start_date.substring(5,10) //PULLING THE LAST 5 CHARACTERS FROM THE START_DATE DUE TO IT'S FORMAT
+                const $newDiv1 = $('<div class="matchup">') //ADDING NEW DIV INSIDE .GAME
                 $newDiv1.text(`${object.away_team} at ${object.home_team + "  -   " + gameDate.replace(/-/g, "/")}`)
                 $(`#schedule${a}`).append($newDiv);
                 $newDiv.append($newDiv1)
 
-                if (a===1){
-                    if (object.away_team === team.school){
+                if (a===1){//IF STATMENT TO DETERMINE IF THIS TEAM IS THE MAIN TEAM OR THE SECOND TEAM THAT POPS UP UPON VIEW MATCHUP CLICK, MAKING SURE THE VIEW MATCHUP IS NOT ADDED TO THE SECOND TEAM
+                    if (object.away_team === team.school){//CONDITION TO CHECK WHICH TEAM TO LOAD FROM THE MATCHUP
                     let teamB = object.home_team
-                    const $matchupButton = $(`<button class="view-matchup${i}" id="${teamB}">`)
+                    const $matchupButton = $(`<button class="view-matchup${i}" id="${teamB}">`) //CREATING VIEW MATCHUP BUTTON
                     $matchupButton.text('View Matchup')
                     $newDiv.append($matchupButton)
+                    //VIEW MATCHUPS FUNCTION ON CLICK
                     $(`.view-matchup${i}`).on('click', (event) => {
                         
-                        $('#content').css('flex-direction', 'row')
+                        $('#content').css('flex-direction', 'row')//ADJUSTING CONTENT TO MAKE ROOM AND ALIGN CORRECTLY FOR THE SECOND TEAM
                         $('#team-info1').css('width', '50%')
-                        $('#team-info2').show()
-                        console.log($(event.currentTarget))
-                        const $closeButton = $(`<button class="close-button">`)
+                        $('#team-info2').show()//SHOWING PREVIOUSLY HIDDEN HTML CONTENT FOR SECOND TEAM
+                        const $closeButton = $(`<button class="close-button">`) //CREATING CLOSE BUTTON ON SECOND TEAM
                         $closeButton.text('X')
                         $('#team-info2').append($closeButton)
-                        loadData($(event.currentTarget).attr('id'),2,year)
-                            $closeButton.on('click', () => {
+                        loadData($(event.currentTarget).attr('id'),2,year)  //CALLING LOAD DATA WHEN CLICKING VIEW MATCHUP
+                            $closeButton.on('click', () => { //CLOSE BUTTON CLICK EVENT TO HIDE AND EMPTY ALL NECESSARY COMPONENTS FOR THE SECOND TEAM
                                 $('#roster2').empty()
                                 $('#schedule2').empty()
                                 $('#incomingclass2').empty()
@@ -83,21 +82,22 @@ const getSchedule = (team,a,year) => {
                                 $('#team-info1').css('width', '100%')
                         })
                     })
-                    } else if (object.home_team === team.school){
+                    } else if (object.home_team === team.school){//CONDITION TO CHECK WHICH TEAM TO LOAD FROM THE MATCHUP
                     let teamB = object.away_team
-                    const $matchupButton = $(`<button class="view-matchup${i}" id="${teamB}">`)
+                    const $matchupButton = $(`<button class="view-matchup${i}" id="${teamB}">`)//CREATING VIEW MATCHUP BUTTON
                     $matchupButton.text('View Matchup')
                     $newDiv.append($matchupButton)
+                    //VIEW MATCHUPS FUNCTION ON CLICK
                     $(`.view-matchup${i}`).on('click', (event) => {
                         $('#roster2').empty()
-                        $('#content').css('flex-direction', 'row')
+                        $('#content').css('flex-direction', 'row')//ADJUSTING CONTENT TO MAKE ROOM AND ALIGN CORRECTLY FOR THE SECOND TEAM
                         $('#team-info1').css('width', '50%')
-                        $('#team-info2').show()
-                        const $closeButton = $(`<button class="close-button">`)
+                        $('#team-info2').show()//SHOWING PREVIOUSLY HIDDEN HTML CONTENT FOR SECOND TEAM
+                        const $closeButton = $(`<button class="close-button">`) //CREATING CLOSE BUTTON ON SECOND TEAM
                         $closeButton.text('X')
                         $('#team-info2').append($closeButton)
-                        loadData($(event.currentTarget).attr('id'),2,year)
-                            $closeButton.on('click', () => {
+                        loadData($(event.currentTarget).attr('id'),2,year)//CALLING LOAD DATA WHEN CLICKING VIEW MATCHUP
+                            $closeButton.on('click', () => {//CLOSE BUTTON CLICK EVENT TO HIDE AND EMPTY ALL NECESSARY COMPONENTS FOR THE SECOND TEAM
                                 $('#roster2').empty()
                                 $('#schedule2').empty()
                                 $('#incomingclass2').empty()
@@ -119,6 +119,7 @@ const getSchedule = (team,a,year) => {
     );
     }
 
+//============GET THE INCOMING RECRUITING CLASS FROM THE API
 
 const getIncomingClass = (team,a, year) => {
     let lowerTeam = team.school.toLowerCase()
@@ -148,13 +149,16 @@ const getIncomingClass = (team,a, year) => {
 
         }
 
+
+//==========GETS THE CURRENT ROSTER==================
+
 const getRoster = (team,a, year) => {
         $.ajax({
             url:`https://api.collegefootballdata.com/roster?team=${team.school}&year=${year-1}`,
         }).then(
             (data)=>{
                 for (const object of data) {
-                    const $newLi = $('<li class="player">')
+                    const $newLi = $('<li class="player">')  //CREATING NEW LIST ITEM FOR EACH PLAYER
                     $newLi.text(`${object.first_name} ${object.last_name}, ${object.position}, #${object.jersey}, Year: ${object.year}`)
                     $(`#roster${a}`).append($newLi);
                 }
@@ -164,6 +168,9 @@ const getRoster = (team,a, year) => {
             }
         );
         }
+
+
+//===========RUNNING ALL THE GET FUNCTIONS TO GATHER ALL THE TEAM'S INFORMATION IN ONE CALL
 
 const getTeamInfo = (team,a,userYear) => {
     getSchedule(team,a, userYear)
@@ -191,10 +198,10 @@ $.ajax({
                 $('#container22').empty()
                 $('#incoming-class2').empty()
                 
-                const $newh1 = $('<h1 class="team">')
+                const $newh1 = $('<h1 class="team">')  //ADDING H1 WITH EACH TEAM NAME AND MASCOT
                 $newh1.text(`${team.school} ${team.mascot}`)
                 $(`#container2${a}`).prepend($newh1);
-                const $newImage = $(`<img class="logo" id="logo${i}" src="${team.logos[1]}">`)
+                const $newImage = $(`<img class="logo" id="logo${i}" src="${team.logos[1]}">`)  //ADDING EACH TEAM'S LOGO
                 $(`#container2${a}`).prepend($newImage);
                 $(`#container2${a}`).css('background', `linear-gradient(-100deg, ${team.color} 80%, ${team.alt_color} 80%)`)
                 getTeamInfo(team,a,year)
