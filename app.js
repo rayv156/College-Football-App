@@ -87,6 +87,7 @@ const getSchedule = (team,a,year) => {
                                 $('#roster2').empty()
                                 $('#schedule2').empty()
                                 $('#incomingclass2').empty()
+                                $('#metrics2').empty()
                                 $('#container22').empty
                                 $('#team-info2').hide()
                                 $('#team-info1').css('width', '100%')
@@ -111,6 +112,7 @@ const getSchedule = (team,a,year) => {
                                 $('#roster2').empty()
                                 $('#schedule2').empty()
                                 $('#incomingclass2').empty()
+                                $('#metrics2').empty()
                                 $('#container22').empty
                                 $('#team-info2').hide()
                                 $('#team-info1').css('width', '100%')
@@ -251,7 +253,7 @@ $.ajax({
                 team = object
                 $('#container22').empty()
                 $('#incoming-class2').empty()
-                
+                $('#metrics2').empty()
                 const $newh1 = $('<h1 class="team">')  //ADDING H1 WITH EACH TEAM NAME AND MASCOT
                 $newh1.text(`${team.school} ${team.mascot}`)
                 $(`#container2${a}`).prepend($newh1);
