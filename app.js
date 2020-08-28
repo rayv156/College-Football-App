@@ -7,6 +7,7 @@ $('#team-info2').hide()
 
 
 
+
 //////////////////////////////
 /////FUNCTIONS
 /////////////////////////////
@@ -16,9 +17,13 @@ $('#team-info2').hide()
 
 $('form').on('submit', (event)=> {
         event.preventDefault();
+        $('hr').remove()
+        $('#quick-link').remove()
+        $('#home-page-links').hide()
         $('.incoming-class').empty()
         $('.roster').empty()
         $('.schedule').empty()
+        $('.metrics').empty()
         $('#container21').empty()
         $('#container31').hide()
         $('#team-info2').hide()
@@ -53,7 +58,11 @@ const getSchedule = (team,a,year) => {
                 const $newDiv = $(`<div class="game" id="game${i}">`) //ADDING NEW DIV FOR EACH GAME
                 let gameDate = object.start_date.substring(5,10) //PULLING THE LAST 5 CHARACTERS FROM THE START_DATE DUE TO IT'S FORMAT
                 const $newDiv1 = $('<div class="matchup">') //ADDING NEW DIV INSIDE .GAME
-                $newDiv1.text(`${object.away_team} at ${object.home_team + "  -   " + gameDate.replace(/-/g, "/")}`)
+                if (object.home_points === null && object.away_points === null){
+                    object.home_points = "";
+                    object.away_points = "";
+                }
+                $newDiv1.text(`${object.away_team}` + " " + `${object.away_points} at ${object.home_team}` + ` ${object.home_points + "  -   " + gameDate.replace(/-/g, "/")}`)
                 $(`#schedule${a}`).append($newDiv);
                 $newDiv.append($newDiv1)
 
@@ -176,6 +185,7 @@ const getTeamInfo = (team,a,userYear) => {
     getSchedule(team,a, userYear)
     getIncomingClass(team,a, userYear)
     getRoster(team,a, userYear)
+    getMetrics(team,a,userYear)
     $(`#container3${a}`).accordion({
         heightStyle: "content",
         collapsible: true,
@@ -183,6 +193,49 @@ const getTeamInfo = (team,a,userYear) => {
     })
     $(`#container3${a}`).show()
 }
+
+
+
+const getMetrics = (team, a, year) => {
+    $.ajax({
+    url:`https://api.collegefootballdata.com/player/returning?year=${year}&team=${team.school}`,
+}).then(
+    (data)=>{
+        for (const object of data) {
+            
+            const $newMetric = $('<li class="metric">')  //CREATING NEW LIST ITEM FOR EACH METRIC
+            $newMetric.text(`Percent PPA: ${object.percentPPA}`)
+            $(`#metrics${a}`).append($newMetric);
+            const $newMetric1 = $('<li class="metric">')  //CREATING NEW LIST ITEM FOR EACH METRIC
+            $newMetric1.text(`Percent Passing PPA: ${object.percentPassingPPA}`)
+            $(`#metrics${a}`).append($newMetric1);
+            const $newMetric2 = $('<li class="metric">')  //CREATING NEW LIST ITEM FOR EACH METRIC
+            $newMetric2.text(`Percent Receiving PPA: ${object.percentReceivingPPA}`)
+            $(`#metrics${a}`).append($newMetric2);
+            const $newMetric3 = $('<li class="metric">')  //CREATING NEW LIST ITEM FOR EACH METRIC
+            $newMetric3.text(`Percent Rushing PPA: ${object.percentRushingPPA}`)
+            $(`#metrics${a}`).append($newMetric3);
+            const $newMetric4 = $('<li class="metric">')  //CREATING NEW LIST ITEM FOR EACH METRIC
+            $newMetric4.text(`Usage: ${object.usage}`)
+            $(`#metrics${a}`).append($newMetric4);
+            const $newMetric5 = $('<li class="metric">')  //CREATING NEW LIST ITEM FOR EACH METRIC
+            $newMetric5.text(`Passing Usage: ${object.passingUsage}`)
+            $(`#metrics${a}`).append($newMetric5);
+            const $newMetric6 = $('<li class="metric">')  //CREATING NEW LIST ITEM FOR EACH METRIC
+            $newMetric6.text(`Receiving Usage: ${object.receivingUsage}`)
+            $(`#metrics${a}`).append($newMetric6);
+            const $newMetric7 = $('<li class="metric">')  //CREATING NEW LIST ITEM FOR EACH METRIC
+            $newMetric7.text(`Rushing Usage: ${object.rushingUsage}`)
+            $(`#metrics${a}`).append($newMetric7);
+
+        }
+    },
+    ()=>{
+        console.log('bad request');
+    }
+);
+}
+
 
 const loadData = (team,a,year) => {
     
@@ -214,3 +267,4 @@ $.ajax({
     }
 );
 }
+
