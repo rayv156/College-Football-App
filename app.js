@@ -29,6 +29,7 @@ $('form').on('submit', (event)=> {
         $('#team-info2').hide()
         $('#team-info1').css('width', '100%')
         let userInput = $('input[type="text"]').val()
+
         let userYear = $('#year').val()
     
         loadData(userInput,1,userYear)
