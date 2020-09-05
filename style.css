@@ -2,6 +2,14 @@ body {
     text-align: center;
     margin: 0px;
     background-color: white;
+    background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/accd3f04-700a-440b-8a16-b6601f358893/d9limq8-319f128c-97cd-4f3a-9c97-dc832d279ec1.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvYWNjZDNmMDQtNzAwYS00NDBiLThhMTYtYjY2MDFmMzU4ODkzXC9kOWxpbXE4LTMxOWYxMjhjLTk3Y2QtNGYzYS05Yzk3LWRjODMyZDI3OWVjMS5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.C6zrEGaJCVOIQX7z-VTTReoKpkNETj-ASX74ShfzguA");
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+
+p {
+    font-family: 'Bebas Neue', cursive;
 }
 
 #home-page-links {
@@ -14,7 +22,10 @@ body {
 #quick-link {
     margin-top: 20px;
     align-self: flex-start;
-    color: black;
+    color: white;
+    background-color: rgba(0,0,0,0.8);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
 }
 
 hr {
@@ -52,7 +63,7 @@ hr {
     height: 285.33px;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    background-color: rgba(92,169,80,1);
+    background-color: black;
 }
 
 #two47:hover {
@@ -107,19 +118,7 @@ button:hover {
 
 }
 
-#modal {
-	background-color: rgba(0,0,0,0.4);
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	z-index: 1;
-	/*This puts our modal in front of the body (which has a default z-index setting of `0`*/
-	overflow: auto;
-	/*If overflow is clipped, a scroll-bar should be added to see the rest of the content*/
-	display: none;
-}
+
 
 #content {
     display: flex;
@@ -142,15 +141,38 @@ button:hover {
 }
 h1 {
     color: white;
-    font-family: 'Spartan', sans-serif;
+    font-family: 'Bebas Neue', cursive;
     margin: 5px;
  
+}
+
+h2 {
+    color: black;
+    font-family: 'Bebas Neue', cursive;
+    margin: 5px;
+ 
+}
+
+#modal {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+	position: fixed;
+	top: 5%;
+    left: 2.5%;
+	height: 50%;
+	width: 95%;
+	z-index: 1;
+	/*This puts our modal in front of the body (which has a default z-index setting of `0`*/
+	overflow: auto;
+	/*If overflow is clipped, a scroll-bar should be added to see the rest of the content*/
+	display: none;
 }
 
 .team {
     align-self: center;
     background-color: rgba(0,0,0,0.5);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 5px;
 }
 
 #search-bar {
@@ -316,8 +338,9 @@ a {
         flex-direction: column;
     }
     #modal-textbox {
-        height: 350px;
-        width: 350px;
+        height: 300px;
+        width: 300px;
+        margin-left: 10px;
     }
 
     input[type=text]{

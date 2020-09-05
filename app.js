@@ -6,7 +6,19 @@ $('#container31').hide()
 $('#team-info2').hide()
 
 
-
+const $openBtn = $('#openModal');
+const $modal = $('#modal');
+const $closeBtn = $('#close');
+const openModal = () => {
+  $modal.css('display', 'block')
+}
+const closeModal = () => {
+  $modal.css('display', 'none')
+}
+setTimeout(openModal, 1000);
+// Event Listeners
+$openBtn.on('click', openModal)
+$closeBtn.on('click', closeModal)
 
 //////////////////////////////
 /////FUNCTIONS
@@ -88,7 +100,7 @@ const getSchedule = (team,a,year) => {
                                 $('#schedule2').empty()
                                 $('#incomingclass2').empty()
                                 $('#metrics2').empty()
-                                $('#container22').empty
+                                $('#container22').empty()
                                 $('#team-info2').hide()
                                 $('#team-info1').css('width', '100%')
                         })
@@ -113,7 +125,7 @@ const getSchedule = (team,a,year) => {
                                 $('#schedule2').empty()
                                 $('#incomingclass2').empty()
                                 $('#metrics2').empty()
-                                $('#container22').empty
+                                $('#container22').empty()
                                 $('#team-info2').hide()
                                 $('#team-info1').css('width', '100%')
                             })
